@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { DynamicFormBuildConfig, DynamicFormConfiguration, RxDynamicFormBuilder } from '@rxweb/reactive-dynamic-forms';
-import { ReactiveFormConfig } from '@rxweb/reactive-form-validators';
+import { ReactiveFormConfig, ResetFormType } from '@rxweb/reactive-form-validators';
 import { SERVER_DATA } from 'src/assets/formJson';
 import { SameAsAddressModel } from './models/same-as-address.model';
 import { StateModel } from './models/state.model';
@@ -28,11 +28,28 @@ export class AppComponent {
       }
     })
     this.dynamicFormConfiguration = {
-      controlConfigModels: [{ modelName: "state", model: StateModel }, { modelName: "sameAsAddress", model: SameAsAddressModel },{ modelName: 'validationModel', model: NonAsyncCustomValidation }]
+      controlConfigModels: [{ modelName: "state", model: StateModel }, { modelName: "sameAsAddress", model: SameAsAddressModel },{ modelName: "validationModel", model: NonAsyncCustomValidation }]
     }
-    this.dynamicForm = this.dynamicFormBuilder.formGroup(this.serverData, this.dynamicFormConfiguration)
+    this.dynamicForm = this.dynamicFormBuilder.formGroup(this.serverData, this.dynamicFormConfiguration) 
+    
+    
   }
-  func1(){
-    console.log("Hello World!!");
+  ngAfterViewInit(){
+    this.customRemoveValidation()
+    this.resetForm()
+  }
+
+  customRemoveValidation() {
+    console.log("Hello World!!");   
+    let allInput = document.getElementsByClassName('form-control');
+    for(let i=0;i<allInput.length;i++){
+      allInput[i].classList.remove('is-invalid');      
+    }  
+    // this.dynamicForm.formGroup.setBackEndErrors({
+    //   firstName:{true:"Hello World!!"}
+    // })
+  }
+  resetForm() {
+    this.dynamicForm.formGroup.resetForm({ resetType: ResetFormType.ControlsOnly })
   }
 }
