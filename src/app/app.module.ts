@@ -6,10 +6,12 @@ import { RxReactiveFormsModule } from '@rxweb/reactive-form-validators';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { FormPreviewComponent } from './components/form-preview/form-preview.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    FormPreviewComponent
   ],
   imports: [
     BrowserModule,

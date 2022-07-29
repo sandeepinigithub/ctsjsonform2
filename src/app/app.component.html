@@ -1,14 +1,15 @@
 <div class="container">
   <h1>Hello NP Family</h1>
   <hr />
+  <hr />
+  <h3>Please Click on button to generate Form1 And Form2</h3>
+  <hr />
 
-  <div class="row">
-    <div class="col-12">
-      <form [formGroup]="dynamicForm.formGroup">
-        <div viewMode="basic" [rxwebDynamicForm]="dynamicForm" [uiBindings]="uiBindings">
-        </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
-      </form>
-    </div>
-  </div>
+  <!-- Add here form-preview Start -->
+  <app-form-preview [viewModeC]="'basic'" [uiBindingsC]="uiBindings" [rxwebDynamicFormC]="dynamicForm">
+  </app-form-preview>
+  <!-- Add here form-preview End -->
+  <button class="btn btn-primary mt-4" (click)="generate1()">Generate Form 1 </button>
+  <button class="btn btn-primary mt-4 mx-4" (click)="generate2()">Generate Form 2 </button>
+
 </div>

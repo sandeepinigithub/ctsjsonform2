@@ -4,7 +4,7 @@ export class NonAsyncCustomValidation extends FormControlConfig {
       override validator:any = (control: AbstractControl):any => {        
         switch (control.value) {
             case 'india':
-                return { custom: { message: 'Indian Nationality Required' } };
+                return { custom: { message: 'Indian' } };
                 break;
             case null:
                 return { custom: { message: 'Please enter something' } };
