@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { DynamicFormBuildConfig, DynamicFormConfiguration, RxDynamicFormBuilder } from '@rxweb/reactive-dynamic-forms';
 import { ReactiveFormConfig } from '@rxweb/reactive-form-validators';
 import { SameAsAddressModel } from 'src/app/models/same-as-address.model';
@@ -13,24 +14,31 @@ import { SERVER_DATA } from 'src/assets/formJson';
 })
 export class FormPreviewComponent implements OnInit {
 
-  // Input variable from app component 
-  @Input() viewModeC: any
-  @Input() rxwebDynamicFormC: any
-  @Input() uiBindingsC: any
-  @Input() serverDataC: any
-
-  @Input() dynamicForm!: DynamicFormBuildConfig;
+  serverDataC: any[] = []
+  viewModeC: any = 'basic'
+  uiBindingsC: any = ["firstName", "country", "state", "permanentAddress", "sameAsPermanent", "correspondenceAddress"];
+  dynamicForm:DynamicFormBuildConfig | any;
   dynamicFormConfigurationC!: DynamicFormConfiguration;
 
+  json1: any
+  json2: any
 
 
 
-
-  constructor(private dynamicFormBuilderC: RxDynamicFormBuilder) { }
-
-
+  constructor(private dynamicFormBuilderC: RxDynamicFormBuilder, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
+    this.route.params.subscribe((event: any) => {      
+      if (event.id == 1) {
+        this.json1 = JSON.parse(localStorage.getItem('1') || '');
+        this.serverDataC = this.json1
+      }
+      if (event.id == 2) {
+        this.json2 = JSON.parse(localStorage.getItem('2') || '');
+        this.serverDataC = this.json2
+      }
+    });    
+
     ReactiveFormConfig.set({
       validationMessage: {
         required: 'This Field is required',
@@ -39,7 +47,7 @@ export class FormPreviewComponent implements OnInit {
     this.dynamicFormConfigurationC = {
       controlConfigModels: [{ modelName: "state", model: StateModel }, { modelName: "sameAsAddress", model: SameAsAddressModel }, { modelName: "validationModel", model: NonAsyncCustomValidation }]
     }
-    this.dynamicForm = this.dynamicFormBuilderC.formGroup(this.serverDataC, this.dynamicFormConfigurationC)
+    this.dynamicForm = this.dynamicFormBuilderC?.formGroup(this.serverDataC, this.dynamicFormConfigurationC);
   }
 
 }
